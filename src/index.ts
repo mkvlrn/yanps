@@ -57,6 +57,10 @@ import dependencies from "../templates/dependencies.json";
     "vscode/settings.json",
     join(projectPath, ".vscode", "settings.json")
   );
+  await getFile(
+    `jest/jest.config.${projectLang}`,
+    join(projectPath, `jest.config.${projectLang}`)
+  );
 
   // eslint copy
   const tempEslintRoot = `eslint/${projectLang}/.eslintrc.root.json`;
@@ -69,6 +73,14 @@ import dependencies from "../templates/dependencies.json";
     projectReact ? "react" : "base"
   }.json`;
   await getFile(tempEslintTst, join(projectPath, "tests", ".eslintrc.json"));
+
+  // webpack copy
+  if (projectReact) {
+    await getFile(
+      `webpack/webpack.config.${projectLang}`,
+      join(projectPath, `webpack.config.${projectLang}`)
+    );
+  }
 
   // tsconfig copy
   if (projectLang === "ts") {
