@@ -1,15 +1,11 @@
 {
   "extends": [
-    "airbnb-typescript/base",
+    "airbnb-base",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:jest/all",
+    "plugin:jsdoc/recommended",
     "prettier"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.tests.json"
-  },
   "env": {
     "jest": true,
     "node": true,

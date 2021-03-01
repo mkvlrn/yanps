@@ -18,20 +18,13 @@ import dependencies from "./dependencies.json";
   // prompt
   ora(`yanps v${version}`).warn();
   ora("").stopAndPersist();
-  const {
-    projectPath,
-    projectLang,
-    projectReact,
-    projectManager,
-  } = await prompt();
+  const { projectPath, projectReact, projectManager } = await prompt();
   ora("").stopAndPersist();
 
   // base dir, structure, package.json
   const projectInit = ora("Initializing project").start();
   await createStructure(projectPath, [".vscode", "src", "tests"]);
-  const rawPack = `project/${projectLang}-${
-    projectReact ? "react" : "base"
-  }.package.json`;
+  const rawPack = `package.${projectReact ? "react" : "base"}.json`;
   await getFile(rawPack, join(projectPath, "package.json"));
   const packFile = await readFile(join(projectPath, "package.json"), "utf-8");
   const packReplace = packFile.replace(
@@ -43,74 +36,46 @@ import dependencies from "./dependencies.json";
 
   // other direct copies
   const copyFiles = ora("Copying template files").start();
-  await getFile("git/.gitattributes", join(projectPath, ".gitattributes"));
-  await getFile("git/.gitignore", join(projectPath, ".gitignore"));
+  await getFile(".gitattributes", join(projectPath, ".gitattributes"));
+  await getFile(".gitignore", join(projectPath, ".gitignore"));
+  await getFile(".prettierrc.json", join(projectPath, ".prettierrc.json"));
   await getFile(
-    "prettier/.prettierrc.json",
-    join(projectPath, ".prettierrc.json")
-  );
-  await getFile(
-    "vscode/extensions.json",
+    "vscode.extensions.json",
     join(projectPath, ".vscode", "extensions.json")
   );
   await getFile(
-    "vscode/settings.json",
+    "vscode.settings.json",
     join(projectPath, ".vscode", "settings.json")
   );
-  await getFile(
-    `jest/jest.config.${projectLang}`,
-    join(projectPath, `jest.config.${projectLang}`)
-  );
+  await getFile(`jest.config.json`, join(projectPath, `jest.config.json`));
+  await getFile(`babel.config.json`, join(projectPath, `babel.config.json`));
 
   // eslint copy
-  const tempEslintRoot = `eslint/${projectLang}/.eslintrc.root.json`;
-  await getFile(tempEslintRoot, join(projectPath, ".eslintrc.json"));
-  const tempEslintSrc = `eslint/${projectLang}/.eslintrc.src.${
-    projectReact ? "react" : "base"
-  }.json`;
+  await getFile(".eslintrc.root.json", join(projectPath, ".eslintrc.json"));
+  const tempEslintSrc = `.eslintrc.src.${projectReact ? "react" : "base"}.json`;
   await getFile(tempEslintSrc, join(projectPath, "src", ".eslintrc.json"));
-  const tempEslintTst = `eslint/${projectLang}/.eslintrc.tests.${
+  const tempEslintTst = `.eslintrc.tests.${
     projectReact ? "react" : "base"
   }.json`;
   await getFile(tempEslintTst, join(projectPath, "tests", ".eslintrc.json"));
 
   // webpack copy
   if (projectReact) {
-    await getFile(
-      `webpack/webpack.config.${projectLang}`,
-      join(projectPath, `webpack.config.${projectLang}`)
-    );
+    await getFile(`webpack.config.js`, join(projectPath, `webpack.config.js`));
   }
 
-  // tsconfig copy
-  if (projectLang === "ts") {
-    await getFile(
-      "tsconfig/tsconfig.root.json",
-      join(projectPath, "tsconfig.json")
-    );
-    await getFile(
-      `tsconfig/tsconfig.src.${projectReact ? "react" : "base"}.json`,
-      join(projectPath, "tsconfig.src.json")
-    );
-    await getFile(
-      `tsconfig/tsconfig.tests.${projectReact ? "react" : "base"}.json`,
-      join(projectPath, "tsconfig.tests.json")
-    );
-  }
   copyFiles.succeed("Files copied");
 
   // install dependencies
   const installDeps = ora(
     `Installing dependencies using ${projectManager}`
   ).start();
-  const deps = dependencies[projectLang][projectReact ? "react" : "base"].join(
-    " "
-  );
+  const deps = dependencies[projectReact ? "react" : "base"].join(" ");
   await doExec(`${projectManager} add ${deps} -D`, {
     cwd: resolve(projectPath),
   });
   installDeps.succeed("Dependencies installed");
 
   // bye!
-  ora("All done!\n").info();
+  ora("All done!").info();
 })();

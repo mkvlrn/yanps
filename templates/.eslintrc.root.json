@@ -1,15 +1,11 @@
 {
   "extends": [
-    "airbnb-typescript",
-    "airbnb/hooks",
+    "airbnb-base",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
+    "plugin:jsdoc/all",
     "prettier"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.src.json"
-  },
   "env": {
     "node": true,
     "browser": true

@@ -5,12 +5,11 @@ import download from "download";
 const doWrite = promisify(writeFile);
 
 /**
- *
- * @param rawFile Template file to be downloaded
- * @param dest Destination (with name) to copy downloaded file
- * @returns Success on downloading and writing file
+ * @param {string} rawFile  Template file to be downloaded
+ * @param {string} dest Destination (with name) to copy downloaded file
+ * @returns {boolean} Success on downloading and writing file
  */
-export default async function getFile(rawFile: string, dest: string) {
+export default async function getFile(rawFile, dest) {
   const url = `https://raw.githubusercontent.com/mkvlrn/yanps/main/templates/${rawFile}`;
 
   try {

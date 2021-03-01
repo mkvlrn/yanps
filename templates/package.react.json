@@ -1,9 +1,9 @@
 {
   "name": "$NAME$",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "rimraf ./dist && webpack --mode production",
     "dev": "webpack serve --mode development",
-    "lint": "eslint src/**/*.js && tsc -w",
+    "lint": "eslint src/**/*.js",
     "test": "jest"
   },
   "devDependencies": {},

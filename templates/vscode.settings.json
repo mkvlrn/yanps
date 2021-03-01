@@ -36,6 +36,6 @@
     "typescript",
     "typescriptreact"
   ],
-  "javascript.validate.enable": true,
-  "typescript.validate.enable": true
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false
 }

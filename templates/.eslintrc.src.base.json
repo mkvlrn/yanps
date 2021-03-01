@@ -1,10 +1,9 @@
 {
   "extends": [
-    "airbnb",
-    "airbnb/hooks",
+    "airbnb-base",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jest/all",
+    "plugin:jsdoc/all",
     "prettier"
   ],
   "env": {

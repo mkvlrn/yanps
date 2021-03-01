@@ -1,6 +1,7 @@
 {
   "extends": [
-    "airbnb-base",
+    "airbnb",
+    "airbnb/hooks",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jest/all",
@@ -8,6 +9,7 @@
   ],
   "env": {
     "node": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   }
 }
