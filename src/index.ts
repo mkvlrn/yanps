@@ -8,15 +8,15 @@ import prompt from "./prompt";
 import createStructure from "./createStructure";
 import getFile from "./getFile";
 
-import dependencies from "../templates/dependencies.json";
+import dependencies from "./dependencies.json";
 
 (async () => {
   const { writeFile, readFile } = promises;
   const doExec = promisify(exec);
-  const selfPack = await import("../package.json");
+  const version = process.env.npm_package_version;
 
   // prompt
-  ora(`yanps v${selfPack.version}`).warn();
+  ora(`yanps v${version}`).warn();
   ora("").stopAndPersist();
   const {
     projectPath,
