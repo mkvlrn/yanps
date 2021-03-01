@@ -63,7 +63,10 @@ import dependencies from "./dependencies.json";
 
   // webpack copy
   if (projectReact) {
-    await getFile(`webpack.config.js`, join(projectPath, `webpack.config.js`));
+    await getFile(
+      `webpack.config.babel.js`,
+      join(projectPath, `webpack.config.babel.js`)
+    );
   }
 
   copyFiles.succeed("Files copied");
