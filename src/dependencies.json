@@ -2,6 +2,7 @@
   "base": [
     "@babel/cli",
     "@babel/core",
+    "@babel/eslint-parser",
     "@babel/preset-env",
     "@babel/preset-react",
     "babel-jest",
@@ -18,6 +19,7 @@
   "react": [
     "@babel/cli",
     "@babel/core",
+    "@babel/eslint-parser",
     "@babel/preset-env",
     "@babel/preset-react",
     "babel-jest",

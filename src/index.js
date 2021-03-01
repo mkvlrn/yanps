@@ -15,10 +15,10 @@ import dependencies from "./dependencies.json";
 (async () => {
   const { writeFile, readFile } = promises;
   const doExec = promisify(exec);
-  const version = process.env.npm_package_version;
+  const pack = await import("../package.json");
 
   // prompt
-  ora(`yanps v${version}`).warn();
+  ora(`yanps v${pack.version}`).warn();
   ora("").stopAndPersist();
   const { projectPath, projectReact, projectManager } = await prompt();
   ora("").stopAndPersist();
