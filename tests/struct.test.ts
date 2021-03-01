@@ -5,10 +5,6 @@ import createStructure from "../src/createStructure";
 const dir = `${process.cwd()}/testingDirectory`;
 
 describe("creates base structure", () => {
-  beforeAll(async () => {
-    await mkdir(dir);
-  });
-
   afterAll(async () => {
     rimraf(dir, () => {});
   });
