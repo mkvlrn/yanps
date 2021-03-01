@@ -1,16 +1,22 @@
 {
   "name": "yanps",
   "version": "4.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "yet another nodejs project starter",
+  "bin": {
+    "yanps": "./dist/index.js"
+  },
   "scripts": {
     "build": "rimraf ./dist && babel ./src -d ./dist --copy-files",
     "dev": "babel-node ./src",
     "lint": "eslint src/**/*.js",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node",
+    "project",
+    "starter"
+  ],
+  "author": "Mike Valeriano <mkvlrn@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.13.0",

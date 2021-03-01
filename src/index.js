@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { join, resolve } from "path";
 import { exec } from "child_process";
 import { promises } from "fs";
