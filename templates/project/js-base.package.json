@@ -1,0 +1,10 @@
+{
+  "name": "$NAME$",
+  "scripts": {
+    "dev": "node ./src",
+    "lint": "eslint src/**/*.js && tsc -w",
+    "test": "jest"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc -p tsconfig.src.json --noemit false",
-    "dev": "ts-node ./src/index.ts",
+    "dev": "rimraf my-project && ts-node ./src/index.ts",
     "lint": "eslint src/**/*.ts && tsc -w",
     "tsc": "tsc -p tsconfig.src.json -w",
     "test": "jest"

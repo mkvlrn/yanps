@@ -1,19 +1,32 @@
 import { existsSync } from "fs";
 import { join } from "path";
 import { prompt } from "inquirer";
+import { lookpath } from "lookpath";
 
 interface Answers {
-  path: string;
-  lang: string;
-  react: boolean;
+  projectPath: string;
+  projectLang: string;
+  projectReact: boolean;
+  projectManager: string;
 }
 
 export default async function getPrompt(): Promise<Answers> {
   const dir = process.cwd();
 
+  // everyone has npm. EVERYONE
+  const managers = ["npm"];
+
+  // checking for others
+  const yarn = await lookpath("yarn");
+  const pnpm = await lookpath("pnpm");
+
+  // if others, add to array
+  if (yarn) managers.push("yarn");
+  if (pnpm) managers.push("pnpm");
+
   const answers = await prompt([
     {
-      name: "path",
+      name: "projectPath",
       type: "input",
       message: "Project name (directory will be created in current path):",
       default: "my-project",
@@ -31,7 +44,7 @@ export default async function getPrompt(): Promise<Answers> {
       },
     },
     {
-      name: "lang",
+      name: "projectLang",
       type: "list",
       message: "TypeScript or JavaScript project?",
       default: "ts",
@@ -41,12 +54,23 @@ export default async function getPrompt(): Promise<Answers> {
       ],
     },
     {
-      name: "react",
+      name: "projectReact",
       type: "confirm",
       message: "Using React/Webpack?",
       default: true,
     },
+    {
+      name: "projectManager",
+      type: "list",
+      message: "What package manager would you like to use?",
+      when: managers.length > 1,
+      choices: managers,
+      default: "npm",
+    },
   ]);
 
-  return { ...answers, path: join(dir, answers.path) };
+  if (answers.projectManager) {
+    answers.projectManager = "npm";
+  }
+  return { ...answers, projectPath: join(dir, answers.projectPath) };
 }
