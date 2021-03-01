@@ -22,13 +22,13 @@
     "strict": true
   },
   "include": [
-    "./*.ts"
+    "./*.ts",
+    "./src/**/*.ts",
+    "./tests/**/*.ts"
   ],
   "exclude": [
     "./node_modules",
-    "./dist",
-    "./src",
-    "./tests"
+    "./dist"
   ],
   "ts-node": {
     "files": true

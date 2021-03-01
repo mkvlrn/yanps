@@ -5,7 +5,7 @@ import { lookpath } from "lookpath";
 
 interface Answers {
   projectPath: string;
-  projectLang: string;
+  projectLang: "ts" | "js";
   projectReact: boolean;
   projectManager: string;
 }
@@ -69,7 +69,7 @@ export default async function getPrompt(): Promise<Answers> {
     },
   ]);
 
-  if (answers.projectManager) {
+  if (!answers.projectManager) {
     answers.projectManager = "npm";
   }
   return { ...answers, projectPath: join(dir, answers.projectPath) };

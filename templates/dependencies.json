@@ -1,0 +1,82 @@
+{
+  "ts": {
+    "base": [
+      "@jest/types",
+      "@types/jest",
+      "@typescript-eslint/eslint-plugin",
+      "eslint",
+      "eslint-config-airbnb-typescript",
+      "eslint-config-prettier",
+      "eslint-plugin-import",
+      "eslint-plugin-jest",
+      "eslint-plugin-jsx-a11y",
+      "eslint-plugin-react",
+      "eslint-plugin-react-hooks",
+      "jest",
+      "prettier",
+      "rimraf",
+      "ts-jest",
+      "ts-node",
+      "typescript"
+    ],
+    "react": [
+      "@jest/types",
+      "@types/jest",
+      "@types/react",
+      "@types/react-dom",
+      "@types/webpack",
+      "@typescript-eslint/eslint-plugin",
+      "eslint",
+      "eslint-config-airbnb-typescript",
+      "eslint-config-prettier",
+      "eslint-plugin-import",
+      "eslint-plugin-jest",
+      "eslint-plugin-jsx-a11y",
+      "eslint-plugin-react",
+      "eslint-plugin-react-hooks",
+      "fork-ts-checker-webpack-plugin",
+      "hot-accept-webpack-plugin@next",
+      "html-webpack-plugin",
+      "jest",
+      "prettier",
+      "rimraf",
+      "ts-jest",
+      "ts-loader",
+      "typescript",
+      "webpack",
+      "webpack-cli",
+      "webpack-dev-server"
+    ]
+  },
+  "js": {
+    "base": [
+      "eslint",
+      "eslint-config-airbnb-base",
+      "eslint-config-prettier",
+      "eslint-plugin-import",
+      "eslint-plugin-jest",
+      "jest",
+      "prettier",
+      "rimraf "
+    ],
+    "react": [
+      "eslint",
+      "eslint-config-airbnb",
+      "eslint-config-prettier",
+      "eslint-plugin-import",
+      "eslint-plugin-jest",
+      "eslint-plugin-jsx-a11y",
+      "eslint-plugin-react",
+      "eslint-plugin-react-hooks",
+      "fork-ts-checker-webpack-plugin",
+      "hot-accept-webpack-plugin@next",
+      "html-webpack-plugin",
+      "jest",
+      "prettier",
+      "rimraf",
+      "webpack",
+      "webpack-cli",
+      "webpack-dev-server"
+    ]
+  }
+}
