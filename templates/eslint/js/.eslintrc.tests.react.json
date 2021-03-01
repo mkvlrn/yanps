@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jest/all",
+    "prettier"
+  ],
+  "env": {
+    "node": true,
+    "browser": true
+  }
+}
