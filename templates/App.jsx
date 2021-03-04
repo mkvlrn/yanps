@@ -13,8 +13,10 @@ const Div = styled.div`
  */
 
 /**
+ * App Component
+ *
  * @param {Props} props Component props
- * @returns {React.FC} Functional Component
+ * @returns {Function} Functional Component
  */
 export default function App({ name }) {
   const greet = name || "World";
