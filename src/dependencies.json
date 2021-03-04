@@ -23,6 +23,7 @@
     "@babel/preset-env",
     "@babel/preset-react",
     "@babel/register",
+    "@pmmmwh/react-refresh-webpack-plugin",
     "babel-jest",
     "babel-loader",
     "eslint",
@@ -34,13 +35,19 @@
     "eslint-plugin-jsx-a11y",
     "eslint-plugin-react",
     "eslint-plugin-react-hooks",
-    "hot-accept-webpack-plugin@next",
     "html-webpack-plugin",
     "jest",
     "prettier",
+    "react-refresh",
     "rimraf",
     "webpack",
     "webpack-cli",
     "webpack-dev-server"
+  ],
+  "reactProd": [
+    "react",
+    "react-dom",
+    "styled-components",
+    "prop-types"
   ]
 }

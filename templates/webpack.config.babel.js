@@ -1,7 +1,6 @@
-import { HotAcceptPlugin } from "hot-accept-webpack-plugin";
 import { join } from "path";
+import ReactRefresh from "@pmmmwh/react-refresh-webpack-plugin";
 import Htmlplugin from "html-webpack-plugin";
-import webpack from "webpack";
 
 /**
  * @param {object} _ Env
@@ -10,18 +9,11 @@ import webpack from "webpack";
  */
 export default function Config(_, args) {
   const PORT = process.env.PORT || 1337;
-  const PROD = args.mode === "production";
-
-  const plugins = [];
-  if (!PROD) {
-    plugins.push(
-      new webpack.HotModuleReplacementPlugin(),
-      new HotAcceptPlugin({ test: "index.jsx" })
-    );
-  }
-  plugins.push(new Htmlplugin({ template: "./src/static/index.html" }));
+  const { mode } = args;
+  const DEV = mode === "development";
 
   const config = {
+    mode,
     target: "web",
     entry: "./src/index.jsx",
     output: {
@@ -37,8 +29,15 @@ export default function Config(_, args) {
       rules: [
         {
           test: /\.jsx?$/,
-          loader: "babel-loader",
-          exclude: "/node_modules/",
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                plugins: [DEV && "react-refresh/babel"],
+              },
+            },
+          ],
         },
         {
           test: /\.(mpeg|mpg|mp4)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -70,13 +69,17 @@ export default function Config(_, args) {
         },
       ],
     },
-    plugins,
-    devtool: PROD ? "cheap-source-map" : "inline-cheap-source-map",
+    plugins: [
+      DEV && new ReactRefresh(),
+      new Htmlplugin({ template: "./src/static/index.html" }),
+    ],
+    devtool: DEV ? "inline-cheap-source-map" : "cheap-source-map",
     devServer: {
       contentBase: "./dist",
       port: PORT,
       historyApiFallback: true,
       stats: "minimal",
+      hot: true,
       hotOnly: true,
       open: true,
       host: "0.0.0.0",

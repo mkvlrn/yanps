@@ -6,6 +6,6 @@
     "lint": "eslint src/**/*.js",
     "test": "jest"
   },
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }

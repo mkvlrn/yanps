@@ -61,12 +61,27 @@ import dependencies from "./dependencies.json";
   }.json`;
   await getFile(tempEslintTst, join(projectPath, "tests", ".eslintrc.json"));
 
-  // webpack copy
+  // webpack and boilerplate copy
   if (projectReact) {
+    const { mkdir } = promises;
+
     await getFile(
       `webpack.config.babel.js`,
       join(projectPath, `webpack.config.babel.js`)
     );
+
+    // static dir inside src
+    await mkdir(join(projectPath, "src", "static"));
+
+    await getFile("index.jsx", join(projectPath, "src", "index.jsx"));
+    await getFile("App.jsx", join(projectPath, "src", "App.jsx"));
+    await getFile(
+      "index.html",
+      join(projectPath, "src", "static", "index.html")
+    );
+  } else {
+    // or just the index.js for simple node
+    await getFile("index.js", join(projectPath, "src", "index.js"));
   }
 
   copyFiles.succeed("Files copied");
@@ -79,8 +94,16 @@ import dependencies from "./dependencies.json";
   await doExec(`${projectManager} add ${deps} -D`, {
     cwd: resolve(projectPath),
   });
+  // react deps
+  if (projectReact) {
+    const reactDeps = dependencies.reactProd.join(" ");
+    await doExec(`${projectManager} add ${reactDeps}`, {
+      cwd: resolve(projectPath),
+    });
+  }
   installDeps.succeed("Dependencies installed");
 
   // bye!
-  ora("All done!").info();
+  ora("").stopAndPersist();
+  ora(`All done! CD into ${projectPath} and code away!`).info();
 })();

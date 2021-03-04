@@ -12,5 +12,9 @@
     "node": true,
     "browser": true,
     "jest": true
+  },
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
