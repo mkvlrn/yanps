@@ -12,6 +12,15 @@ export default function Config(_, args) {
   const { mode } = args;
   const DEV = mode === "development";
 
+  const plugins = [new Htmlplugin({ template: "./src/static/index.html" })];
+  const jsxLoader = {
+    loader: "babel-loader",
+  };
+  if (DEV) {
+    plugins.push(new ReactRefresh());
+    jsxLoader.options = { plugins: ["react-refresh/babel"] };
+  }
+
   const config = {
     mode,
     target: "web",
@@ -30,14 +39,7 @@ export default function Config(_, args) {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                plugins: [DEV && "react-refresh/babel"],
-              },
-            },
-          ],
+          use: [jsxLoader],
         },
         {
           test: /\.(mpeg|mpg|mp4)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -69,10 +71,7 @@ export default function Config(_, args) {
         },
       ],
     },
-    plugins: [
-      DEV && new ReactRefresh(),
-      new Htmlplugin({ template: "./src/static/index.html" }),
-    ],
+    plugins,
     devtool: DEV ? "inline-cheap-source-map" : "cheap-source-map",
     devServer: {
       contentBase: "./dist",
