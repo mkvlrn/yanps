@@ -1,6 +1,6 @@
 import { join } from "path";
-import ReactRefresh from "@pmmmwh/react-refresh-webpack-plugin";
-import Htmlplugin from "html-webpack-plugin";
+import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import HtmlPlugin from "html-webpack-plugin";
 
 /**
  * @param {object} _ Env
@@ -12,12 +12,12 @@ export default function Config(_, args) {
   const { mode } = args;
   const DEV = mode === "development";
 
-  const plugins = [new Htmlplugin({ template: "./src/static/index.html" })];
+  const plugins = [new HtmlPlugin({ template: "./src/static/index.html" })];
   const jsxLoader = {
     loader: "babel-loader",
   };
   if (DEV) {
-    plugins.push(new ReactRefresh());
+    plugins.push(new ReactRefreshPlugin());
     jsxLoader.options = { plugins: ["react-refresh/babel"] };
   }
 
