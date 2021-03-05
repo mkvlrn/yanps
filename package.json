@@ -1,6 +1,6 @@
 {
   "name": "yanps",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "description": "yet another nodejs project starter",
   "bin": {
     "yanps": "dist/index.js"
