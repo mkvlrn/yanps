@@ -103,6 +103,7 @@
       "react-refresh-typescript",
       "rimraf",
       "ts-jest",
+      "ts-loader",
       "ts-node",
       "type-fest",
       "typescript",
