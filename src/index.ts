@@ -7,14 +7,13 @@ import { promisify } from "util";
 import ora from "ora";
 
 import prompt from "./prompt";
-import createStructure from "./createStructure";
 import getFile from "./getFile";
 import dependencies from "./dependencies.json";
 
+// json import shenanigans
 type Deps = {
-  [key: string]: { node: string[]; react: string[]; reactProd: string[] };
+  [key: string]: { [index: string]: string[] };
 };
-
 const deps: Deps = dependencies;
 
 (async () => {
@@ -22,22 +21,26 @@ const deps: Deps = dependencies;
   const doExec = promisify(exec);
   const { npm_package_version: VERSION } = process.env;
 
-  // prompt
+  // prompt questions
   ora(`yanps v${VERSION}`).warn();
   ora("").stopAndPersist();
   const {
     projectLang,
     projectPath,
-    projectReact,
+    projectType,
     projectManager,
   } = await prompt();
   ora("").stopAndPersist();
 
-  const projectType = projectReact ? "react" : "node";
-
   // base dir, structure, package.json, project name
   const projectInit = ora("Initializing project").start();
-  await createStructure(projectPath, [".vscode", "src", "tests"]);
+  await mkdir(projectPath);
+
+  await Promise.all(
+    [".vscode", "src", "tests"].map(async (i) => {
+      await mkdir(join(projectPath, i));
+    })
+  );
   await getFile(
     `${projectLang}/${projectType}/package.json`,
     join(projectPath, "package.json")
@@ -50,7 +53,7 @@ const deps: Deps = dependencies;
   await writeFile(join(projectPath, "package.json"), packReplace, "utf-8");
   projectInit.succeed("Project initialized");
 
-  // direct copies
+  // direct copies to root
   const copyFiles = ora("Copying template files").start();
   await getFile("common/.gitattributes", join(projectPath, ".gitattributes"));
   await getFile("common/.gitignore", join(projectPath, ".gitignore"));
@@ -71,7 +74,7 @@ const deps: Deps = dependencies;
     join(projectPath, `jest.config.json`)
   );
 
-  // babel for js, tsconfig for ts
+  // babel file for js, tsconfig for ts
   if (projectLang === "js") {
     await getFile(
       `js/${projectType}/babel.config.json`,
@@ -92,7 +95,7 @@ const deps: Deps = dependencies;
     );
   }
 
-  // eslint copies
+  // eslint configs
   await getFile(
     `${projectLang}/${projectType}/.eslintrc.json`,
     join(projectPath, ".eslintrc.json")
@@ -107,11 +110,14 @@ const deps: Deps = dependencies;
   );
 
   // webpack config and boilerplate copy
-  if (projectReact) {
+  if (projectType === "react") {
     // static dir inside src
     await mkdir(join(projectPath, "src", "static"));
 
-    const wpFile = `webpack${projectReact ? ".config.ts" : ".config.babel.js"}`;
+    // webpack config
+    const wpFile = `webpack${
+      projectType === "react" ? ".config.ts" : ".config.babel.js"
+    }`;
     await getFile(`${projectLang}/react/${wpFile}`, join(projectPath, wpFile));
     await getFile(
       `${projectLang}/react/src/static/index.html`,
@@ -139,13 +145,14 @@ const deps: Deps = dependencies;
     `Installing dependencies using ${projectManager}`
   ).start();
   // react deps
-  if (projectReact) {
+  if (projectType === "react") {
     const reactDeps = deps[projectLang].react.join(" ");
     await doExec(`${projectManager} add ${reactDeps}`, {
       cwd: resolve(projectPath),
     });
   }
 
+  // devDependencies
   const devDeps = deps[projectLang][projectType].join(" ");
   await doExec(`${projectManager} add ${devDeps} -D`, {
     cwd: resolve(projectPath),
@@ -155,4 +162,5 @@ const deps: Deps = dependencies;
   // bye!
   ora("").stopAndPersist();
   ora(`All done! CD into ${projectPath} and code away!`).info();
+  ora("").stopAndPersist();
 })();
