@@ -5,7 +5,8 @@ import download from "download";
 const doWrite = promisify(writeFile);
 
 export default async function getFile(rawFile: string, dest: string) {
-  const url = `https://raw.githubusercontent.com/mkvlrn/yanps/main/templates/${rawFile}`;
+  let url = "https://raw.githubusercontent.com/mkvlrn/yanps-templates/main/";
+  url += rawFile;
 
   try {
     await doWrite(dest, await download(url));

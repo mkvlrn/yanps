@@ -8,6 +8,7 @@ devDependencies:
   '@types/inquirer': 7.3.1
   '@types/jest': 26.0.20
   '@types/node': 14.14.32
+  '@types/rimraf': 3.0.0
   '@typescript-eslint/eslint-plugin': 4.16.1_db289a69270a1846aefbe377c7369d6d
   '@typescript-eslint/parser': 4.16.1_eslint@7.21.0+typescript@4.2.3
   eslint: 7.21.0
@@ -641,6 +642,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Lo5dy3ai6LNnbL663sgdzqL1eib11u1yKH6w3v3IXEOO4kRfQpMn1qWUTaumcHLACjFp1RcBx9tUXEvJoR3vcA==
+  /@types/glob/7.1.3:
+    dependencies:
+      '@types/minimatch': 3.0.3
+      '@types/node': 14.14.32
+    dev: true
+    resolution:
+      integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/got/8.3.5:
     dependencies:
       '@types/node': 14.14.32
@@ -691,6 +699,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+  /@types/minimatch/3.0.3:
+    dev: true
+    resolution:
+      integrity: sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
   /@types/node/14.14.32:
     dev: true
     resolution:
@@ -703,6 +715,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-i99hy7Ki19EqVOl77WplDrvgNugHnsSjECVR/wUrzw2TJXz1zlUfT2ngGckR6xN7yFYaijsMAqPkOLx9HgUqHg==
+  /@types/rimraf/3.0.0:
+    dependencies:
+      '@types/glob': 7.1.3
+      '@types/node': 14.14.32
+    dev: true
+    resolution:
+      integrity: sha512-7WhJ0MdpFgYQPXlF4Dx+DhgvlPCfz/x5mHaeDQAKhcenvQP1KCpLQ18JklAqeGMYSAT2PxLpzd0g2/HE7fj7hQ==
   /@types/stack-utils/2.0.0:
     dev: true
     resolution:
@@ -5884,6 +5903,7 @@ specifiers:
   '@types/inquirer': ^7.3.1
   '@types/jest': ^26.0.20
   '@types/node': ^14.14.32
+  '@types/rimraf': ^3.0.0
   '@typescript-eslint/eslint-plugin': ^4.16.1
   '@typescript-eslint/parser': ^4.16.1
   download: ^8.0.0

@@ -6,21 +6,29 @@ import getFile from "../src/getFile";
 const { mkdir, readFile } = promises;
 const dir = `${process.cwd()}/testingDirectory`;
 
+async function createTestDir() {
+  await mkdir(dir);
+}
+
+function cleanupTestDir() {
+  rimraf(dir, () => {});
+}
+
 describe("can download files from github", () => {
   const tempFile = join(dir, ".prettierrc.json");
+
   it("downloads and saves file", async () => {
     expect.assertions(1);
 
-    await mkdir(dir);
-    const test = await getFile("prettier/.prettierrc.json", tempFile);
+    cleanupTestDir();
+    await createTestDir();
+    const test = await getFile("common/.prettierrc.json", tempFile);
     expect(test).toBeTruthy();
-    await rimraf(dir);
   });
 
   it("downloaded the correct content", async () => {
     expect.assertions(1);
 
-    await mkdir(dir);
     const content = await readFile(tempFile, "utf-8");
     expect(JSON.parse(content)).toStrictEqual({
       overrides: [
@@ -32,6 +40,6 @@ describe("can download files from github", () => {
         },
       ],
     });
-    await rimraf(dir);
+    cleanupTestDir();
   });
 });

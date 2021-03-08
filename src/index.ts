@@ -34,17 +34,20 @@ const deps: Deps = dependencies;
 
   // base dir, structure, package.json, project name
   const projectInit = ora("Initializing project").start();
+  // creates root dir
   await mkdir(projectPath);
-
+  // creates initial dirs on root
   await Promise.all(
     [".vscode", "src", "tests"].map(async (i) => {
       await mkdir(join(projectPath, i));
     })
   );
+  // copies a template package.json file
   await getFile(
     `${projectLang}/${projectType}/package.json`,
     join(projectPath, "package.json")
   );
+  // replace $NAME$ in package.json with project name
   const packFile = await readFile(join(projectPath, "package.json"), "utf-8");
   const packReplace = packFile.replace(
     "$NAME$",
