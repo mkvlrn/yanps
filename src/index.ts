@@ -120,7 +120,7 @@ const pack: { version: string } = require("../package.json");
 
     // webpack config
     const wpFile = `webpack${
-      projectType === "react" ? ".config.ts" : ".config.babel.js"
+      projectLang === "ts" ? ".config.ts" : ".config.babel.js"
     }`;
     await getFile(`${projectLang}/react/${wpFile}`, join(projectPath, wpFile));
     await getFile(

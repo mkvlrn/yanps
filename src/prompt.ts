@@ -24,9 +24,9 @@ export default async function getPrompt(): Promise<Answers> {
   if (yarn) managers.push("yarn");
   if (pnpm) managers.push("pnpm");
 
-  const answers: Answers = await prompt([
+  const answers = await prompt([
     {
-      name: "projectLang",
+      name: "lang",
       type: "list",
       message: "TypeScript or JavaScript?",
       default: "ts",
@@ -36,7 +36,7 @@ export default async function getPrompt(): Promise<Answers> {
       ],
     },
     {
-      name: "projectPath",
+      name: "path",
       type: "input",
       message: "Project name (directory will be created in current path):",
       default: "my-project",
@@ -54,13 +54,13 @@ export default async function getPrompt(): Promise<Answers> {
       },
     },
     {
-      name: "projectReact",
+      name: "react",
       type: "confirm",
       message: "Using React/Webpack?",
       default: true,
     },
     {
-      name: "projectManager",
+      name: "pacman",
       type: "list",
       message: "What package manager would you like to use?",
       when: managers.length > 1,
@@ -69,9 +69,12 @@ export default async function getPrompt(): Promise<Answers> {
     },
   ]);
 
-  if (!answers.projectManager) {
-    answers.projectManager = "npm";
-  }
-  answers.projectType = answers.projectType ? "react" : "node";
-  return { ...answers, projectPath: join(dir, answers.projectPath) };
+  const finalAnswers: Answers = {
+    projectLang: answers.lang,
+    projectManager: answers.pacman || "npm",
+    projectPath: join(dir, answers.path),
+    projectType: answers.react ? "react" : "node",
+  };
+
+  return finalAnswers;
 }
