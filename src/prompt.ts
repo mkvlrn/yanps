@@ -6,7 +6,7 @@ import { lookpath } from "lookpath";
 type Answers = {
   projectLang: string;
   projectPath: string;
-  projectReact: boolean;
+  projectType: string;
   projectManager: string;
 };
 
@@ -72,5 +72,6 @@ export default async function getPrompt(): Promise<Answers> {
   if (!answers.projectManager) {
     answers.projectManager = "npm";
   }
+  answers.projectType = answers.projectType ? "react" : "node";
   return { ...answers, projectPath: join(dir, answers.projectPath) };
 }
