@@ -16,13 +16,14 @@ type Deps = {
 };
 const deps: Deps = dependencies;
 
+const pack: { version: string } = require("../package.json");
+
 (async () => {
   const { writeFile, readFile, mkdir } = promises;
   const doExec = promisify(exec);
-  const { npm_package_version: VERSION } = process.env;
 
   // prompt questions
-  ora(`yanps v${VERSION}`).warn();
+  ora(`yanps v${pack.version}`).warn();
   ora("").stopAndPersist();
   const {
     projectLang,
