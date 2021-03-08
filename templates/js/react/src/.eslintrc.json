@@ -1,14 +1,18 @@
 {
   "parser": "@babel/eslint-parser",
   "extends": [
-    "airbnb-base",
+    "airbnb",
+    "airbnb/hooks",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsdoc/recommended",
     "prettier"
   ],
   "env": {
     "node": true,
     "browser": true
+  },
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }

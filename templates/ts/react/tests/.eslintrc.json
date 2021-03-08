@@ -1,16 +1,21 @@
 {
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tests/tsconfig.json"
+  },
   "extends": [
-    "airbnb",
+    "airbnb-typescript",
     "airbnb/hooks",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsdoc/recommended",
+    "plugin:import/typescript",
+    "plugin:jest/all",
     "prettier"
   ],
   "env": {
     "node": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "rules": {
     "react/jsx-uses-react": "off",

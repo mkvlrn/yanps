@@ -3,17 +3,14 @@ import { join } from "path";
 import { prompt } from "inquirer";
 import { lookpath } from "lookpath";
 
-/**
- * @typedef {object} Answer
- * @property {string} projectPath - Project Path
- * @property {boolean} projectReact - Uses React/Webpack?
- * @property {string} projectManager - Pacman
- */
+type Answers = {
+  projectLang: string;
+  projectPath: string;
+  projectReact: boolean;
+  projectManager: string;
+};
 
-/**
- * @returns {Answer} Prompt answers
- */
-export default async function getPrompt() {
+export default async function getPrompt(): Promise<Answers> {
   const dir = process.cwd();
 
   // everyone has npm. EVERYONE
@@ -27,7 +24,17 @@ export default async function getPrompt() {
   if (yarn) managers.push("yarn");
   if (pnpm) managers.push("pnpm");
 
-  const answers = await prompt([
+  const answers: Answers = await prompt([
+    {
+      name: "projectLang",
+      type: "list",
+      message: "TypeScript or JavaScript?",
+      default: "ts",
+      choices: [
+        { name: "TypeScript", value: "ts" },
+        { name: "JavaScript", value: "js" },
+      ],
+    },
     {
       name: "projectPath",
       type: "input",

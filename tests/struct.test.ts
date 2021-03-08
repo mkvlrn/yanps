@@ -1,14 +1,11 @@
-import { mkdir, readdir } from "fs/promises";
+import { promises } from "fs";
 import rimraf from "rimraf";
 import createStructure from "../src/createStructure";
 
+const { readdir } = promises;
 const dir = `${process.cwd()}/testingDirectory`;
 
 describe("creates base structure", () => {
-  afterAll(async () => {
-    rimraf(dir, () => {});
-  });
-
   it("creates dirs", async () => {
     expect.assertions(2);
     const test = await createStructure(dir, ["alpha", "beta", "gamma"]);
@@ -18,5 +15,7 @@ describe("creates base structure", () => {
     expect(JSON.stringify(dirs)).toStrictEqual(
       JSON.stringify(["alpha", "beta", "gamma"])
     );
+
+    await rimraf(dir);
   });
 });

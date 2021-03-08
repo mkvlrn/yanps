@@ -4,7 +4,6 @@
     "airbnb-base",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsdoc/recommended",
     "prettier"
   ],
   "env": {

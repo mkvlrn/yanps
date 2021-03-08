@@ -1,12 +1,7 @@
 import { join } from "path";
 import { promises } from "fs";
 
-/**
- * @param {string} dest CWD where dirs will be created
- * @param {string[]} struct List of directories to be created
- * @returns {boolean} Success of creation
- */
-export default async function createStructure(dest, struct) {
+export default async function createStructure(dest: string, struct: string[]) {
   const { mkdir } = promises;
 
   try {
@@ -23,5 +18,3 @@ export default async function createStructure(dest, struct) {
     return false;
   }
 }
-
-createStructure(2, 4);
