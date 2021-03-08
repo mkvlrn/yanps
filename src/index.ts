@@ -150,7 +150,7 @@ const pack: { version: string } = require("../package.json");
   ).start();
   // react deps
   if (projectType === "react") {
-    const reactDeps = deps[projectLang].react.join(" ");
+    const reactDeps = deps[projectLang].reactProd.join(" ");
     await doExec(`${projectManager} add ${reactDeps}`, {
       cwd: resolve(projectPath),
     });
