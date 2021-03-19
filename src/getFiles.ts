@@ -14,28 +14,6 @@ export default async function getFiles(type: string, path: string) {
   // temp destiny
   const remote = join(tempDir, type.split("-")[0], type.split("-")[1]);
 
-  // common files
-  await copy(join(tempDir, "common", ".vscode"), join(path, ".vscode"));
-  await copy(
-    join(tempDir, "common", ".gitattributes"),
-    join(path, ".gitattributes")
-  );
-  await copy(join(tempDir, "common", ".gitignore"), join(path, ".gitignore"));
-  await copy(
-    join(tempDir, "common", ".prettierrc.json"),
-    join(path, ".prettierrc.json")
-  );
-  if (type.includes("react")) {
-    await copy(
-      join(tempDir, "common", ".postcssrc.json"),
-      join(path, ".postcssrc.json")
-    );
-    await copy(
-      join(tempDir, "common", "tailwind.config.json"),
-      join(path, "tailwind.config.json")
-    );
-  }
-
   // targeted files
   await copy(remote, path);
 
