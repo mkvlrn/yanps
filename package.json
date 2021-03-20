@@ -19,7 +19,6 @@
   "author": "Mike Valeriano <mkvlrn@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^9.1.0",
     "inquirer": "^8.0.0",
     "lookpath": "^1.2.0",
     "ora": "^5.4.0",

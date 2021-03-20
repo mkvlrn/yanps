@@ -4,13 +4,19 @@ import { prompt } from "inquirer";
 import { lookpath } from "lookpath";
 
 type Answers = {
-  projectLang: string;
-  projectPath: string;
-  projectType: string;
-  projectManager: string;
+  path: string;
+  lang: string;
+  type: string;
+  pacman: string;
 };
 
-export default async function getPrompt(): Promise<Answers> {
+type RealAnswers = {
+  path: string;
+  clone: string;
+  pacman: string;
+};
+
+export default async function getPrompt(): Promise<RealAnswers> {
   const dir = process.cwd();
 
   // everyone has npm. EVERYONE
@@ -24,17 +30,7 @@ export default async function getPrompt(): Promise<Answers> {
   if (yarn) managers.push("yarn");
   if (pnpm) managers.push("pnpm");
 
-  const answers = await prompt([
-    {
-      name: "lang",
-      type: "list",
-      message: "TypeScript or JavaScript?",
-      default: "ts",
-      choices: [
-        { name: "TypeScript", value: "ts" },
-        { name: "JavaScript", value: "js" },
-      ],
-    },
+  const answers: Answers = await prompt([
     {
       name: "path",
       type: "input",
@@ -54,10 +50,24 @@ export default async function getPrompt(): Promise<Answers> {
       },
     },
     {
-      name: "react",
-      type: "confirm",
-      message: "Using React/Webpack?",
-      default: true,
+      name: "lang",
+      type: "list",
+      message: "TypeScript or JavaScript?",
+      default: "typescript",
+      choices: [
+        { name: "TypeScript", value: "typescript" },
+        { name: "JavaScript", value: "javascript" },
+      ],
+    },
+    {
+      name: "type",
+      type: "list",
+      message: "Project type:",
+      default: "react",
+      choices: [
+        { name: "React PWA", value: "react" },
+        { name: "Generic NodeJS project", value: "node" },
+      ],
     },
     {
       name: "pacman",
@@ -69,11 +79,10 @@ export default async function getPrompt(): Promise<Answers> {
     },
   ]);
 
-  const finalAnswers: Answers = {
-    projectLang: answers.lang,
-    projectManager: answers.pacman || "npm",
-    projectPath: join(dir, answers.path),
-    projectType: answers.react ? "react" : "node",
+  const finalAnswers: RealAnswers = {
+    path: join(dir, answers.path),
+    clone: `starter-${answers.type}-${answers.lang}`,
+    pacman: answers.pacman || "npm",
   };
 
   return finalAnswers;

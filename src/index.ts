@@ -5,73 +5,59 @@ import { exec } from "child_process";
 import { promises } from "fs";
 import { promisify } from "util";
 import ora from "ora";
+import simpleGit from "simple-git";
 
 import prompt from "./prompt";
-import getFiles from "./getFiles";
-import dependencies from "./dependencies.json";
-
-// json import shenanigans
-type Deps = {
-  [key: string]: { [index: string]: string[] };
-};
-const deps: Deps = dependencies;
 
 const pack: { version: string } = require("../package.json");
 
-(async () => {
-  const { writeFile, readFile, mkdir } = promises;
-  const doExec = promisify(exec);
+const { writeFile, readFile, mkdir, rm } = promises;
+const doExec = promisify(exec);
+const git = simpleGit();
 
+(async () => {
   // prompt questions
   ora(`yanps v${pack.version}`).warn();
   ora("").stopAndPersist();
-  const {
-    projectLang,
-    projectPath,
-    projectType,
-    projectManager,
-  } = await prompt();
+  const { path, clone, pacman } = await prompt();
   ora("").stopAndPersist();
 
-  // base dir, package.json, project name
+  // base dir, project name
   const projectInit = ora("Initializing project").start();
   // creates root dir
-  await mkdir(projectPath);
+  await mkdir(path);
   projectInit.succeed("Project initialized");
 
   // copy files!
-  const copyFiles = ora("Copying template files").start();
-  await getFiles(`${projectLang}-${projectType}`, projectPath);
-  // replace $NAME$ in package.json with project name
-  const packFile = await readFile(join(projectPath, "package.json"), "utf-8");
+  const copyFiles = ora("Cloning template files").start();
+  await git.clone(`https://github.com/mkvlrn/${clone}`, path);
+  // replace starter package name in package.json with project name
+  const packFile = await readFile(join(path, "package.json"), "utf-8");
   const packReplace = packFile.replace(
-    "$NAME$",
-    projectPath.split(process.cwd()).join("").substring(1)
+    clone,
+    path.split(process.cwd()).join("").substring(1)
   );
-  await writeFile(join(projectPath, "package.json"), packReplace, "utf-8");
+  await writeFile(join(path, "package.json"), packReplace, "utf-8");
+  // remove .git, readme, lock
+  await rm(join(path, ".git"), { recursive: true, force: true });
+  await rm(join(path, "readme.md"));
+  await rm(join(path, "package-lock.json"), { force: true });
+  await rm(join(path, "yarn.lock"), { force: true });
+  await rm(join(path, "pnpm-lock.yaml"), { force: true });
   copyFiles.succeed("Files copied");
 
   // install dependencies
-  const installDeps = ora(
-    `Installing dependencies using ${projectManager}`
-  ).start();
-  // react deps
-  if (projectType === "react") {
-    const reactDeps = deps[projectLang].reactProd.join(" ");
-    await doExec(`${projectManager} add ${reactDeps}`, {
-      cwd: resolve(projectPath),
-    });
-  }
-
-  // devDependencies
-  const devDeps = deps[projectLang][projectType].join(" ");
-  await doExec(`${projectManager} add ${devDeps} -D`, {
-    cwd: resolve(projectPath),
-  });
+  const installDeps = ora(`Installing dependencies using ${pacman}`).start();
+  await doExec(`${pacman} install`, { cwd: resolve(path) });
   installDeps.succeed("Dependencies installed");
 
   // bye!
   ora("").stopAndPersist();
-  ora(`All done! CD into ${projectPath} and code away!`).info();
+  ora(
+    `All done! CD into ${path
+      .split(process.cwd())
+      .join("")
+      .substring(1)} and code away!`
+  ).info();
   ora("").stopAndPersist();
 })();
