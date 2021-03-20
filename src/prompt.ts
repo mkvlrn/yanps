@@ -30,7 +30,7 @@ export default async function getPrompt(): Promise<RealAnswers> {
   if (yarn) managers.push("yarn");
   if (pnpm) managers.push("pnpm");
 
-  const answers: Answers = await prompt([
+  const answers = await prompt<Answers>([
     {
       name: "path",
       type: "input",
