@@ -3,34 +3,39 @@ import { join } from "path";
 import { prompt } from "inquirer";
 import { lookpath } from "lookpath";
 
-type Answers = {
+type Prompt = {
   path: string;
   lang: string;
-  type: string;
+  template: string;
   pacman: string;
 };
 
-type RealAnswers = {
+type Result = {
   path: string;
-  clone: string;
+  template: string;
   pacman: string;
 };
 
-export default async function getPrompt(): Promise<RealAnswers> {
+const projects = [
+  { name: "React PWA", value: "react" },
+  { name: "Generic NodeJS Project", value: "node" },
+];
+
+export default async function getPrompt(): Promise<Result> {
   const dir = process.cwd();
 
-  // everyone has npm. EVERYONE
+  // everyone has npm
   const managers = ["npm"];
 
   // checking for others
-  const yarn = await lookpath("yarn");
   const pnpm = await lookpath("pnpm");
+  const yarn = await lookpath("yarn");
 
   // if others, add to array
-  if (yarn) managers.push("yarn");
   if (pnpm) managers.push("pnpm");
+  if (yarn) managers.push("yarn");
 
-  const answers = await prompt<Answers>([
+  const answers = await prompt<Prompt>([
     {
       name: "path",
       type: "input",
@@ -52,38 +57,38 @@ export default async function getPrompt(): Promise<RealAnswers> {
     {
       name: "lang",
       type: "list",
-      message: "TypeScript or JavaScript?",
-      default: "typescript",
+      message: "Project language:",
+      default: "ts",
       choices: [
-        { name: "TypeScript", value: "typescript" },
-        { name: "JavaScript", value: "javascript" },
+        { name: "TypeScript 😎", value: "typescript" },
+        { name: "JavaScript 😔", value: "javascript" },
       ],
     },
     {
-      name: "type",
+      name: "template",
       type: "list",
       message: "Project type:",
       default: "react",
       choices: [
-        { name: "React PWA", value: "react" },
-        { name: "Generic NodeJS project", value: "node" },
+        ...projects.map((p) => ({
+          name: `${p.name}`,
+          value: `${p.value}`,
+        })),
       ],
     },
     {
       name: "pacman",
       type: "list",
-      message: "What package manager would you like to use?",
+      message: "Pick a package manager:",
       when: managers.length > 1,
       choices: managers,
       default: "npm",
     },
   ]);
 
-  const finalAnswers: RealAnswers = {
+  return {
     path: join(dir, answers.path),
-    clone: `starter-${answers.type}-${answers.lang}`,
+    template: `starter-${answers.template}-${answers.lang}`,
     pacman: answers.pacman || "npm",
   };
-
-  return finalAnswers;
 }

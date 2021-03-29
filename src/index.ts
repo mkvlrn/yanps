@@ -19,7 +19,7 @@ const git = simpleGit();
   // prompt questions
   ora(`yanps v${pack.version}`).warn();
   ora("").stopAndPersist();
-  const { path, clone, pacman } = await prompt();
+  const { path, template, pacman } = await prompt();
   ora("").stopAndPersist();
 
   // base dir, project name
@@ -30,11 +30,11 @@ const git = simpleGit();
 
   // copy files!
   const copyFiles = ora("Cloning template files").start();
-  await git.clone(`https://github.com/mkvlrn/${clone}`, path);
+  await git.clone(`https://github.com/mkvlrn/${template}`, path);
   // replace starter package name in package.json with project name
   const packFile = await readFile(join(path, "package.json"), "utf-8");
   const packReplace = packFile.replace(
-    clone,
+    template,
     path.split(process.cwd()).join("").substring(1)
   );
   await writeFile(join(path, "package.json"), packReplace, "utf-8");
