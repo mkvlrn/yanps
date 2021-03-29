@@ -58,7 +58,7 @@ export default async function getPrompt(): Promise<Result> {
       name: "lang",
       type: "list",
       message: "Project language:",
-      default: "ts",
+      default: "typescript",
       choices: [
         { name: "TypeScript 😎", value: "typescript" },
         { name: "JavaScript 😔", value: "javascript" },
