@@ -1,19 +1,6 @@
 {
-  "parser": "@typescript-eslint/parser",
+  "extends": "../.eslintrc.json",
   "parserOptions": {
-    "project": "./tests/tsconfig.json"
-  },
-  "extends": [
-    "airbnb-typescript/base",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:jest/all",
-    "prettier"
-  ],
-  "env": {
-    "node": true,
-    "browser": true,
-    "jest": true
+    "project": "./tsconfig.test.json"
   }
 }
