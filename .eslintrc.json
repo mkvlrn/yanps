@@ -8,7 +8,7 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:jest/all",
+    "plugin:jest/recommended",
     "prettier"
   ],
   "env": {

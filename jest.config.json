@@ -1,5 +1,13 @@
 {
-  "verbose": true,
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "src/**/*.ts",
+    "!src/index.ts",
+    "!src/prompt.ts",
+    "!src/lib.d.ts"
+  ],
+  "coverageDirectory": "tests/coverage",
+  "preset": "ts-jest",
   "testEnvironment": "jest-environment-node",
-  "preset": "ts-jest"
+  "verbose": true
 }
